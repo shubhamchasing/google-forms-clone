@@ -8,7 +8,6 @@ export const getUsers = (users) => {
 };
 
 export const createForm = (forms) => {
-  //  console.log(form)
   return {
     type: ActionTypes.CREATE_FORM,
     payload: forms,
@@ -16,7 +15,6 @@ export const createForm = (forms) => {
 };
 
 export const getForms = (forms) => {
-  //  console.log(form)
   return {
     type: ActionTypes.GET_FORMS,
     payload: forms,
@@ -24,7 +22,6 @@ export const getForms = (forms) => {
 };
 
 export const getUser = (user) => {
-  //  console.log(form)
   return {
     type: ActionTypes.GET_USER,
     payload: user,

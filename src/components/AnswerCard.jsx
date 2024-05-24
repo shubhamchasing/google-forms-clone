@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography ,Stack } from "@mui/material";
+import { Card, CardContent, Typography, Stack } from "@mui/material";
 
 const AnswerCard = ({ field, children }) => {
   return (
@@ -9,11 +9,10 @@ const AnswerCard = ({ field, children }) => {
         padding: "0.5em",
       }}
     >
-      <CardContent >
-        <Stack direction='row' spacing={1}>
-
-        <Typography sx ={{mb:'1em'}}>{field.question}</Typography>
-        {field.isRequired && <Typography color='error'>*</Typography>}
+      <CardContent>
+        <Stack direction="row" spacing={1}>
+          <Typography sx={{ mb: "1em" }}>{field.question}</Typography>
+          {field.isRequired && <Typography color="error">*</Typography>}
         </Stack>
         {children}
       </CardContent>

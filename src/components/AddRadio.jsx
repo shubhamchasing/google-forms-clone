@@ -6,12 +6,7 @@ const AddRadio = () => {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <RadioButtonUncheckedIcon color="disabled" />
-      <TextField
-        variant="standard"
-        fullWidth={false}
-        
-        disabled
-      />
+      <TextField variant="standard" fullWidth={false} disabled />
     </Stack>
   );
 };

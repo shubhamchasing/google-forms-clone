@@ -7,7 +7,6 @@ const AddText = () => {
       defaultValue="Short-answer text"
       variant="standard"
       disabled
-      // defaultValue="Short-answer text"
       fullWidth={false}
     />
   );

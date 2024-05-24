@@ -1,17 +1,13 @@
-import {
-  Container,
-  Box,
-  CircularProgress,
-  Stack,
-} from "@mui/material";
+import { useEffect } from "react";
+
+import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-import FormCard from "./Card";
+import { Box, CircularProgress, Container, Stack } from "@mui/material";
 
+import FormCard from "./Card";
 import * as Api from "../Api";
-import { connect } from "react-redux";
 import * as action from "../store/actions/actions";
-import { useEffect } from "react";
 
 const mapStateToProps = (state) => {
   return {
@@ -29,23 +25,19 @@ const mapDispatchToProps = (dispatch) => {
 
 function User({ getUser, user }) {
   const { userId } = useParams();
-  //console.log(userId);
   useEffect(() => {
     Api.getUser(userId).then((data) => {
-      console.log(data);
       let newData = data.map((form) => {
         return {
           ...form,
           form_fields: form.form_fields.map((field) => {
-            // console.log({ ...field, response: "" });
             return { ...field, response: "" };
           }),
         };
       });
       getUser(newData);
     });
-  }, [userId]);
-  console.log(user);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
   return user.length === 0 ? (
     <Stack alignItems="center" margin="5em">
       <CircularProgress />
@@ -66,7 +58,6 @@ function User({ getUser, user }) {
       >
         {user &&
           user.map((form, index) => {
-            //console.log(form);
             return (
               <Link
                 to={`${form.form_id}`}

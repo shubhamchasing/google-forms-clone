@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  SvgIcon,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
-  Stack,
-  Box,
-} from "@mui/material";
 
-import { ReactComponent as FormIcon } from "../assets/images/Form.svg";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import {
+  AppBar,
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  SvgIcon,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+
 import * as Api from "../Api";
-import { connect } from "react-redux";
 import * as action from "../store/actions/actions";
+import { ReactComponent as FormIcon } from "../assets/images/Form.svg";
 
 const mapStateToProps = (state) => {
   return {
@@ -39,7 +40,7 @@ function Navbar({ getUsers, users }) {
     Api.getUsers().then((data) => {
       getUsers(data);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnSelect = (event) => {
     let val = "";
@@ -88,20 +89,16 @@ function Navbar({ getUsers, users }) {
                 label="user"
                 onChange={handleOnSelect}
               >
-                {/* <MenuItem value="">
-                  <em>None</em>
-                </MenuItem> */}
-
                 {users.map((user) => {
                   return (
                     <MenuItem key={user.id} value={user.user_name}>
-                    <Link
-                      to={`user/${user.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
+                      <Link
+                        to={`user/${user.id}`}
+                        style={{ textDecoration: "none" }}
+                      >
                         {user.user_name}
-                    </Link>
-                      </MenuItem>
+                      </Link>
+                    </MenuItem>
                   );
                 })}
               </Select>

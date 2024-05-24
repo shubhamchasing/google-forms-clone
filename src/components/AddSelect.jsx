@@ -10,7 +10,6 @@ const AddSelect = ({ option, handleOptions, field, number }) => {
         <RadioButtonUncheckedIcon color="disabled" />
       )}
       <TextField
-        // placeholder={`Option${index + 1}`}
         variant="standard"
         fullWidth={false}
         value={option.value}
@@ -22,22 +21,3 @@ const AddSelect = ({ option, handleOptions, field, number }) => {
 };
 
 export default AddSelect;
-
-// <Box sx={{ display: "flex", mt: 1, justifyContent: "start" }}>
-// <Tooltip title="Add option">
-//   <IconButton aria-label="add option" onClick={handleAddOption}>
-//     <AddCircleOutlineIcon />
-//   </IconButton>
-// </Tooltip>
-// </Box>
-
-// <Stack direction="row" alignItems="center" spacing={2}>
-//       <RadioButtonUncheckedIcon color="disabled" />
-//       <TextField
-//         // placeholder={`Option${index + 1}`}
-//         variant="standard"
-//         fullWidth={false}
-//         value={option.value}
-//         onChange={(event) => handleOptions(event,field.id, option.id)}
-//       />
-//     </Stack>

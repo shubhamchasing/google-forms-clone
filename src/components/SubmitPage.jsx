@@ -1,4 +1,5 @@
 import { Box, Card, CardContent } from "@mui/material";
+
 import { topShadow } from "../assets/style/style";
 
 const SubmitPage = () => {
@@ -22,7 +23,7 @@ const SubmitPage = () => {
           width: "40em",
           borderRadius: "0.5em",
           padding: "0.5em",
-          height:"10em"
+          height: "10em",
         }}
         style={topShadow}
       >

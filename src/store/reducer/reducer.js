@@ -1,13 +1,12 @@
 import { ActionTypes } from "../actionTypes/actionTypes";
 
-const intialState = {
+const initialState = {
   users: [],
   forms: [],
   user: [],
 };
 
-export const userReducer = (state = intialState, action) => {
-  // console.log(state)
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.GET_USERS:
       return {

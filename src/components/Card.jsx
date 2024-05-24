@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 
 const FormCard = ({ title, image }) => {
- // console.log(title,image)
   return (
     <Box>
       <Card component="div" sx={{ width: "12em", height: "8em" }}>

@@ -39,7 +39,6 @@ const Modal = ({
   userAssign,
   createForm,
 }) => {
-  //console.log(userAssign)
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -57,7 +56,6 @@ const Modal = ({
     };
 
     Api.createForm(sendData).then((res) => {
-      console.log(res)
       createForm(res);
     });
   };
@@ -98,7 +96,7 @@ const Modal = ({
                     checked={userAssign.includes(user.user_email)}
                     onChange={(event) => handleAssignUsers(event)}
                     id={user.user_email}
-                  ></Checkbox>
+                  />
                   <Link>{user.user_email}</Link>
                 </Stack>
               );

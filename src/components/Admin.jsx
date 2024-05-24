@@ -31,19 +31,23 @@ const mapDispatchToProps = (dispatch) => {
 function Admin({ forms, getForms }) {
   useEffect(() => {
     Api.getForms().then((data) => {
-      // console.log(data);
       getForms(data);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return forms.length === 0 ? (
-    <Stack alignItems="center" margin="5em" >
+    <Stack alignItems="center" margin="5em">
       <CircularProgress />
     </Stack>
   ) : (
     <Box
       component="div"
-      sx={{ backgroundColor: "#f1f3f4", minHeight: "90vh", padding: "5em",marginTop:'3em' }}
+      sx={{
+        backgroundColor: "#f1f3f4",
+        minHeight: "90vh",
+        padding: "5em",
+        marginTop: "3em",
+      }}
     >
       <Container
         component="div"
@@ -60,7 +64,6 @@ function Admin({ forms, getForms }) {
         </Tooltip>
         {forms &&
           forms.map((form, index) => {
-            //console.log(form);
             return (
               <Link
                 to={`/form/${form.form_id}`}
@@ -77,12 +80,3 @@ function Admin({ forms, getForms }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);
-
-// <Box sx={{ backgroundColor: "#f1f3f4" , minHeight:"100%"}}>
-// <Container>
-//   <FormCard title={"Create"} />
-//   {Form.map((title) => {
-//     return <FormCard title={title} />;
-//   })}
-// </Container>
-// </Box>

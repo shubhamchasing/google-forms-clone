@@ -1,8 +1,16 @@
-import dayjs from "dayjs";
-import customParseFromat from "dayjs/plugin/customParseFormat";
+import { useEffect, useState } from "react";
 
+import dayjs from "dayjs";
+import { connect } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Divider,
@@ -15,20 +23,11 @@ import {
   Select,
   TextField,
   Typography,
-  Button,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-import { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
 
 import * as Api from "../Api";
-
-import { topShadow } from "../assets/style/style";
 import AnswerCard from "./AnswerCard";
+import { topShadow } from "../assets/style/style";
 
 const mapStateToProps = (state) => {
   return {
@@ -39,31 +38,17 @@ const mapStateToProps = (state) => {
 const FillForm = ({ user }) => {
   const { formId, userId } = useParams();
   const navigate = useNavigate();
-  //console.log(typeof formId);
-  //console.log(user);
-  dayjs.extend(customParseFromat);
-  // console.log(user.filter((data) => data.form_id.toString() === formId));
+  dayjs.extend(customParseFormat);
 
   const [form, setForm] = useState(
     user.filter((data) => data.form_id.toString() === formId)[0]
   );
-  console.log(form);
-  // console.log(form.form_fields.length)
-  //   useEffect(() => {
-  //     Api.getForm(formId).then((res) => {
-  //       console.log(res);
-  //       setForm(res);
-  //     });
-  //   }, []);
-
-  // if(form === undefined) {
-  // }
 
   useEffect(() => {
     if (form === undefined) {
       navigate(`/user/${userId}`);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnChange = (value, id) => {
     setForm((prevForm) => {
@@ -80,15 +65,12 @@ const FillForm = ({ user }) => {
   };
 
   const handleOnsubmit = (event) => {
-    console.log("gdgdgd");
     let data = {
       ...form,
       user_id: userId,
       form_fields_with_response: form.form_fields,
     };
-    Api.submitForm(data).then((res) => {
-      console.log(res);
-    });
+    Api.submitForm(data).then((res) => {});
     navigate(`submitPage`);
     event.preventDefault();
   };
@@ -131,7 +113,6 @@ const FillForm = ({ user }) => {
         spacing={2}
       >
         {form.form_fields.map((field) => {
-          // console.log(field);
           return (
             <AnswerCard key={field.id} field={field}>
               {field.type === "text" && (
@@ -171,7 +152,6 @@ const FillForm = ({ user }) => {
               {field.type === "radio" && (
                 <FormControl>
                   <RadioGroup
-                    //required={field.isRequired}
                     value={field.response}
                     onChange={(event) =>
                       handleOnChange(event.target.value, field.id)
@@ -194,7 +174,6 @@ const FillForm = ({ user }) => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     error
-                    // required={field.isRequired}
                     inputFormat="DD/MM/YYYY"
                     label="dd/mm/yyyy"
                     value={
@@ -220,11 +199,9 @@ const FillForm = ({ user }) => {
           );
         })}
         <Box>
-          {/* <Link  to={``} style={{ textDecoration: "none" }}> */}
           <Button variant="contained" type="submit">
             Submit
           </Button>
-          {/* </Link> */}
         </Box>
       </form>
     </Box>
@@ -232,85 +209,3 @@ const FillForm = ({ user }) => {
 };
 
 export default connect(mapStateToProps)(FillForm);
-
-// <CardHeader title="Fill form"
-// subheader="from description"
-// ></CardHeader>
-
-// const form = {
-//   form_id: 49,
-//   form_name: "Complete",
-//   form_description: "Description",
-//   form_fields: [
-//     {
-//       id: 1,
-//       question: "What is your name",
-//       type: "text",
-//       options: [
-//         {
-//           id: 1,
-//           value: "Option",
-//         },
-//       ],
-//       isRequired: true,
-//       response: "",
-//     },
-//     {
-//       id: 2,
-//       question: "DOB",
-//       type: "date",
-//       options: [
-//         {
-//           id: 1,
-//           value: "Option",
-//         },
-//       ],
-//       isRequired: true,
-//       response: "",
-//     },
-//     {
-//       id: 3,
-//       question: "Department",
-//       type: "select",
-//       options: [
-//         {
-//           id: 1,
-//           value: "Tech",
-//         },
-//         {
-//           id: 2,
-//           value: "Sales",
-//         },
-//         {
-//           id: 3,
-//           value: "HR",
-//         },
-//       ],
-//       isRequired: true,
-//       response: "",
-//     },
-//     {
-//       id: 4,
-//       question: "Ready to relocate?",
-//       type: "radio",
-//       options: [
-//         {
-//           id: 1,
-//           value: "Yes",
-//         },
-//         {
-//           id: 2,
-//           value: "No",
-//         },
-//       ],
-//       isRequired: false,
-//       response: "",
-//     },
-//   ],
-// };
-
-// Object.keys(form).length === 0 ? (
-//   <Stack alignItems="center" margin="5em">
-//     <CircularProgress />
-//   </Stack>
-// ) :

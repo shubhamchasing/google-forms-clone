@@ -1,3 +1,10 @@
+import EventIcon from "@mui/icons-material/Event";
+import ClearIcon from "@mui/icons-material/Clear";
+import ShortTextIcon from "@mui/icons-material/ShortText";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 import {
   Box,
   Button,
@@ -14,15 +21,8 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import SelectedQuestion from "./SelectedQuestion";
 
-import ShortTextIcon from "@mui/icons-material/ShortText";
-import EventIcon from "@mui/icons-material/Event";
-import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import ClearIcon from "@mui/icons-material/Clear";
+import SelectedQuestion from "./SelectedQuestion";
 
 const QuestionCard = ({
   handleDeleteQuestion,
@@ -51,8 +51,7 @@ const QuestionCard = ({
         <Stack direction="row" alignItems="center" spacing={4} mb="0.5em">
           <TextField
             required={field.isRequired}
-            label = ' '
-            //error = {field.isRequired}
+            label=" "
             fullWidth
             placeholder="Question"
             variant="standard"
@@ -96,7 +95,6 @@ const QuestionCard = ({
             </Select>
           </FormControl>
         </Stack>
-        {/* {console.log((field.type === "select") || (field.type === 'radio'))} */}
         {field.type === "select" || field.type === "radio" ? (
           <Stack spacing={2}>
             {field.options.map((option, index) => {
