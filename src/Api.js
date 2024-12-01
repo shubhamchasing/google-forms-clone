@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://sample-form-backend.onrender.com/api/v1/";
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 export function getUsers() {
   return axios

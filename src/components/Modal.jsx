@@ -52,7 +52,7 @@ const Modal = ({
     let sendData = {
       ...data,
       form_fields: [...questions],
-      users_assigned: [...userAssign],
+      users_assigned: [...userAssign.map(({ user_email }) => user_email)],
     };
 
     Api.createForm(sendData).then((res) => {
@@ -85,6 +85,9 @@ const Modal = ({
             </Stack>
           ) : (
             users.map((user) => {
+              const isChecked = userAssign.some(
+                ({ user_email }) => user_email === user.user_email
+              );
               return (
                 <Stack
                   key={user.id}
@@ -93,8 +96,8 @@ const Modal = ({
                   spacing={2}
                 >
                   <Checkbox
-                    checked={userAssign.includes(user.user_email)}
-                    onChange={(event) => handleAssignUsers(event)}
+                    checked={isChecked}
+                    onChange={() => handleAssignUsers(user)}
                     id={user.user_email}
                   />
                   <Link>{user.user_email}</Link>

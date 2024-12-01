@@ -15,7 +15,25 @@ import Modal from "./Modal";
 import QuestionCard from "./QuestionCard";
 import { bothShadow, sideShadow, topShadow } from "../assets/style/style";
 
-const Form = (forms) => {
+import * as Api from "../Api";
+import { useEffect } from "react";
+import { useParams } from "react-router";
+
+const Form = () => {
+  let { id } = useParams();
+  useEffect(() => {
+    if (id) {
+      Api.getForm(id).then((data) => {
+        setQuestions(data.form_fields);
+        setData({
+          form_id: data.form_id,
+          form_name: data.form_name,
+          form_description: data.form_description,
+        });
+        setUserAssign(data.users_assigned);
+      });
+    }
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -27,6 +45,7 @@ const Form = (forms) => {
   ]);
   const [activeCard, setActiveCard] = useState(0);
   const [data, setData] = useState({
+    form_id: null,
     form_name: "Untitled form",
     form_description: "",
   });
@@ -106,13 +125,17 @@ const Form = (forms) => {
     });
   };
 
-  const handleAssignUsers = (event) => {
-    let id = event.target.id;
-    setUserAssign((assignedUsers) =>
-      assignedUsers.includes(id)
-        ? assignedUsers.filter((f) => f !== id)
-        : [...assignedUsers, id]
-    );
+  const handleAssignUsers = (user) => {
+    setUserAssign((assignedUsers) => {
+      const exists = assignedUsers.some(
+        ({ user_email }) => user_email === user.user_email
+      );
+      return exists
+        ? assignedUsers.filter(
+            ({ user_email }) => user_email !== user.user_email
+          )
+        : [...assignedUsers, user];
+    });
   };
 
   const handleRequired = (id) => {

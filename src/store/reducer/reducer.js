@@ -4,6 +4,22 @@ const initialState = {
   users: [],
   forms: [],
   user: [],
+  //form from reducer is not in use anywhere
+  form: {
+    form_id: null,
+    form_name: "Untitled form",
+    form_description: "A short description",
+    form_fields: [
+      {
+        id: 1,
+        question: "",
+        type: "text",
+        options: [{ id: 1, value: "Option" }],
+        isRequired: true,
+      },
+    ],
+    users_assigned: [],
+  },
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -29,6 +45,12 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: [...action.payload],
+      };
+
+    case ActionTypes.GET_FORM:
+      return {
+        ...state,
+        form: { ...action.payload },
       };
 
     default:

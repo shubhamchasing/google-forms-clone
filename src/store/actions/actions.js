@@ -27,3 +27,10 @@ export const getUser = (user) => {
     payload: user,
   };
 };
+
+export const getForm = (form) => {
+  return {
+    type: ActionTypes.GET_FORM,
+    payload: form,
+  };
+};
