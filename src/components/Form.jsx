@@ -18,20 +18,28 @@ import { bothShadow, sideShadow, topShadow } from "../assets/style/style";
 import * as Api from "../Api";
 import { useEffect } from "react";
 import { useParams } from "react-router";
+import CircularLoader from "./Loader";
 
 const Form = () => {
+  const [loading, setLoading] = useState(true);
   let { id } = useParams();
   useEffect(() => {
+    console.log(id);
     if (id) {
-      Api.getForm(id).then((data) => {
-        setQuestions(data.form_fields);
-        setData({
-          form_id: data.form_id,
-          form_name: data.form_name,
-          form_description: data.form_description,
+      Api.getForm(id)
+        .then((data) => {
+          // setLoading(true)
+          setQuestions(data.form_fields);
+          setData({
+            form_id: data.form_id,
+            form_name: data.form_name,
+            form_description: data.form_description,
+          });
+          setUserAssign(data.users_assigned);
+        })
+        .finally(() => {
+          setLoading(false);
         });
-        setUserAssign(data.users_assigned);
-      });
     }
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [questions, setQuestions] = useState([
@@ -209,88 +217,95 @@ const Form = () => {
         marginTop: "3em",
       }}
     >
-      <Card
-        component="div"
-        sx={{
-          width: "50em",
-          borderRadius: "0.5em",
+      {loading && id !== undefined ? (
+        <CircularLoader />
+      ) : (
+        <>
+          {" "}
+          <Card
+            component="div"
+            sx={{
+              width: "50em",
+              borderRadius: "0.5em",
 
-          padding: "0.5em",
-        }}
-        style={activeCard === 0 ? { ...bothShadow } : { ...topShadow }}
-        onClick={() => handleActive(0)}
-      >
-        <CardContent
-          sx={{ display: "flex", flexDirection: "column", gap: "0.5em" }}
-        >
-          <TextField
-            fullWidth
-            value={data.form_name}
-            onChange={handleOnChange}
-            id="form_name"
-            placeholder="Untitled form"
-            variant="standard"
-            autoFocus
-            inputProps={{ sx: { fontWeight: "400", fontSize: "24pt" } }}
-          />
-          <TextField
-            fullWidth
-            value={data.form_description}
-            onChange={handleOnChange}
-            id="form_description"
-            placeholder="Form description"
-            variant="standard"
-            inputProps={{ sx: { fontSize: "11pt" } }}
-          />
-        </CardContent>
-      </Card>
-      {questions &&
-        questions.map((field, index) => {
-          return (
-            <QuestionCard
-              key={field.id}
-              id={field.id}
-              handleDeleteQuestion={handleDeleteQuestion}
-              handleDuplicateQuestion={handleDuplicateQuestion}
-              sideShadow={sideShadow}
-              isActive={activeCard === field.id}
-              handleActive={handleActive}
-              isRequired={field.isRequired}
-              handleRequired={handleRequired}
-              field={field}
-              handleQuestions={handleQuestions}
-              handleOptions={handleOptions}
-              handleAddOption={handleAddOption}
-              handleDeleteOption={handleDeleteOption}
-              handleOnSelect={handleOnSelect}
-            />
-          );
-        })}
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        width="50em"
-      >
-        <Tooltip title="Add question">
-          <Fab
-            disableFocusRipple={true}
-            sx={{ backgroundColor: "white", color: "#5f6368" }}
-            size="medium"
-            aria-label="add question"
-            onClick={handleAddQuestion}
+              padding: "0.5em",
+            }}
+            style={activeCard === 0 ? { ...bothShadow } : { ...topShadow }}
+            onClick={() => handleActive(0)}
           >
-            <AddCircleOutlineIcon />
-          </Fab>
-        </Tooltip>
+            <CardContent
+              sx={{ display: "flex", flexDirection: "column", gap: "0.5em" }}
+            >
+              <TextField
+                fullWidth
+                value={data.form_name}
+                onChange={handleOnChange}
+                id="form_name"
+                placeholder="Untitled form"
+                variant="standard"
+                autoFocus
+                inputProps={{ sx: { fontWeight: "400", fontSize: "24pt" } }}
+              />
+              <TextField
+                fullWidth
+                value={data.form_description}
+                onChange={handleOnChange}
+                id="form_description"
+                placeholder="Form description"
+                variant="standard"
+                inputProps={{ sx: { fontSize: "11pt" } }}
+              />
+            </CardContent>
+          </Card>
+          {questions &&
+            questions.map((field, index) => {
+              return (
+                <QuestionCard
+                  key={field.id}
+                  id={field.id}
+                  handleDeleteQuestion={handleDeleteQuestion}
+                  handleDuplicateQuestion={handleDuplicateQuestion}
+                  sideShadow={sideShadow}
+                  isActive={activeCard === field.id}
+                  handleActive={handleActive}
+                  isRequired={field.isRequired}
+                  handleRequired={handleRequired}
+                  field={field}
+                  handleQuestions={handleQuestions}
+                  handleOptions={handleOptions}
+                  handleAddOption={handleAddOption}
+                  handleDeleteOption={handleDeleteOption}
+                  handleOnSelect={handleOnSelect}
+                />
+              );
+            })}
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            width="50em"
+          >
+            <Tooltip title="Add question">
+              <Fab
+                disableFocusRipple={true}
+                sx={{ backgroundColor: "white", color: "#5f6368" }}
+                size="medium"
+                aria-label="add question"
+                onClick={handleAddQuestion}
+              >
+                <AddCircleOutlineIcon />
+              </Fab>
+            </Tooltip>
 
-        <Modal
-          data={data}
-          questions={questions}
-          userAssign={userAssign}
-          handleAssignUsers={handleAssignUsers}
-        />
-      </Stack>
+            <Modal
+              data={data}
+              questions={questions}
+              userAssign={userAssign}
+              handleAssignUsers={handleAssignUsers}
+            />
+          </Stack>
+        </>
+      )}
     </Box>
   );
 };

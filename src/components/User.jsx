@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-import { Box, CircularProgress, Container, Stack } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 import FormCard from "./Card";
 import * as Api from "../Api";
 import * as action from "../store/actions/actions";
+import CircularLoader from "./Loader";
 
 const mapStateToProps = (state) => {
   return {
@@ -39,9 +40,7 @@ function User({ getUser, user }) {
     });
   }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
   return user.length === 0 ? (
-    <Stack alignItems="center" margin="5em">
-      <CircularProgress />
-    </Stack>
+    <CircularLoader />
   ) : (
     <Box
       component="div"

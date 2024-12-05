@@ -2,8 +2,6 @@ import {
   Container,
   Box,
   Tooltip,
-  CircularProgress,
-  Stack,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -13,6 +11,7 @@ import * as Api from "../Api";
 import { connect } from "react-redux";
 import * as action from "../store/actions/actions";
 import { useEffect } from "react";
+import CircularLoader from "./Loader";
 
 const mapStateToProps = (state) => {
   return {
@@ -36,9 +35,7 @@ function Admin({ forms, getForms }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return forms.length === 0 ? (
-    <Stack alignItems="center" margin="5em">
-      <CircularProgress />
-    </Stack>
+    <CircularLoader />
   ) : (
     <Box
       component="div"
