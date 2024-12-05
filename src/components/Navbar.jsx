@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   AppBar,
@@ -14,7 +14,6 @@ import {
   Stack,
   SvgIcon,
   Toolbar,
-  Typography,
 } from "@mui/material";
 
 import * as Api from "../Api";
@@ -35,6 +34,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Navbar({ getUsers, users }) {
   const [user, setUser] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     Api.getUsers().then((data) => {
@@ -43,9 +43,13 @@ function Navbar({ getUsers, users }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnSelect = (event) => {
-    let val = "";
-    if (event.target.value !== "Admin") val = event.target.value;
-    setUser(val);
+    let id = event.target.value;
+    setUser(id);
+    if (id === "") {
+      navigate("/");
+    } else {
+      navigate(`user/${id}`);
+    }
   };
 
   return (
@@ -55,32 +59,41 @@ function Navbar({ getUsers, users }) {
         position="fixed"
         sx={{ backgroundColor: "#ffffff" }}
       >
-        <Toolbar>
-          <SvgIcon component={FormIcon} inheritViewBox />
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
+            <SvgIcon
+              component={FormIcon}
+              inheritViewBox
+              sx={{ fontSize: "2rem" }}
+            />
 
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              flexGrow: 1,
-              color: "#5f6871",
-              display: { xs: "none", sm: "block" },
-              paddingLeft: 3,
-            }}
-          >
-            Forms
-          </Typography>
+            <Button
+              onClick={handleOnSelect}
+              value={""}
+              sx={{
+                fontSize: "1.2rem",
+                flexGrow: 1,
+                color: "#5f6871",
+                display: { xs: "none", sm: "block" },
+              }}
+            >
+              Forms
+            </Button>
+          </Stack>
           <Stack direction="row" spacing={2}>
-            <Link to={"/"} style={{ textDecoration: "none" }}>
-              <Button
-                onClick={handleOnSelect}
-                value={"Admin"}
-                sx={{ color: "#5f6871" }}
-              >
-                Admin
-              </Button>
-            </Link>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <Button
+              onClick={handleOnSelect}
+              value={""}
+              sx={{ color: "#5f6871" }}
+            >
+              Admin
+            </Button>
+            <FormControl sx={{ m: 1, width: 150 }} size="small">
               <InputLabel id="demo-select-small">Users</InputLabel>
               <Select
                 labelId="demo-select-small"
@@ -88,17 +101,13 @@ function Navbar({ getUsers, users }) {
                 value={user}
                 label="user"
                 onChange={handleOnSelect}
+                autoWidth
               >
-                {users.map((user) => {
+                {users.map((userObj) => {
                   return (
-                    <Link
-                      to={`user/${user.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <MenuItem key={user.id} value={user.user_name}>
-                        {user.user_name}
-                      </MenuItem>
-                    </Link>
+                    <MenuItem key={userObj.id} value={userObj.id}>
+                      {userObj.user_name}
+                    </MenuItem>
                   );
                 })}
               </Select>
