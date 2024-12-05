@@ -91,14 +91,14 @@ function Navbar({ getUsers, users }) {
               >
                 {users.map((user) => {
                   return (
-                    <MenuItem key={user.id} value={user.user_name}>
-                      <Link
-                        to={`user/${user.id}`}
-                        style={{ textDecoration: "none" }}
-                      >
+                    <Link
+                      to={`user/${user.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MenuItem key={user.id} value={user.user_name}>
                         {user.user_name}
-                      </Link>
-                    </MenuItem>
+                      </MenuItem>
+                    </Link>
                   );
                 })}
               </Select>
