@@ -24,11 +24,9 @@ const Form = () => {
   const [loading, setLoading] = useState(true);
   let { id } = useParams();
   useEffect(() => {
-    console.log(id);
     if (id) {
       Api.getForm(id)
         .then((data) => {
-          // setLoading(true)
           setQuestions(data.form_fields);
           setData({
             form_id: data.form_id,
