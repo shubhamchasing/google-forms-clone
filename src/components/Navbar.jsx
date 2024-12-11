@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   AppBar,
@@ -35,11 +35,15 @@ const mapDispatchToProps = (dispatch) => {
 function Navbar({ getUsers, users }) {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
+  const { userId } = useParams();
 
   useEffect(() => {
     Api.getUsers().then((data) => {
       getUsers(data);
     });
+    if (userId) {
+      setUser(userId);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnSelect = (event) => {
