@@ -1,6 +1,7 @@
 import { Box, Card, CardContent } from "@mui/material";
 
 import { topShadow } from "../assets/style/style";
+import { Link } from "react-router-dom";
 
 const SubmitPage = () => {
   return (
@@ -30,7 +31,7 @@ const SubmitPage = () => {
         <CardContent
           sx={{ display: "flex", flexDirection: "column", gap: "1em" }}
         >
-          Your response has been recorded.
+          Your response has been recorded.<Link to={"/"}>{"Got to Home page"}</Link>
         </CardContent>
       </Card>
     </Box>
