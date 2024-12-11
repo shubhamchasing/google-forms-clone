@@ -11,6 +11,7 @@ import Form from "./components/Form";
 import User from "./components/User";
 import FillForm from "./components/FillForm";
 import SubmitPage from "./components/SubmitPage";
+import NotFound from "./components/NotFound";
 
 function Layout() {
   return (
@@ -36,6 +37,7 @@ function App() {
             element={<SubmitPage />}
           />
         </Route>
+        <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
       </Routes>
     </Router>
   );
