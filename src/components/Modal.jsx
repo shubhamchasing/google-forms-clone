@@ -14,13 +14,12 @@ import {
 
 import SendIcon from "@mui/icons-material/Send";
 
-import * as Api from "../Api";
+import * as Api from "../service/Api";
 import { connect } from "react-redux";
 import * as action from "../store/actions/actions";
 
 const mapStateToProps = (state) => {
   return {
-    forms: state.forms,
     users: state.users,
   };
 };

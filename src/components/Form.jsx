@@ -15,14 +15,17 @@ import Modal from "./Modal";
 import QuestionCard from "./QuestionCard";
 import { bothShadow, sideShadow, topShadow } from "../assets/style/style";
 
-import * as Api from "../Api";
+import * as Api from "../service/Api";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import CircularLoader from "./Loader";
 
 const Form = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   let { id } = useParams();
+ 
   useEffect(() => {
     if (id) {
       Api.getForm(id)
@@ -35,11 +38,19 @@ const Form = () => {
           });
           setUserAssign(data.users_assigned);
         })
+        .catch((err) => {
+          setError(err)
+        })
         .finally(() => {
           setLoading(false);
         });
     }
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (error) {
+   throw error
+  }
+
   const [questions, setQuestions] = useState([
     {
       id: 1,

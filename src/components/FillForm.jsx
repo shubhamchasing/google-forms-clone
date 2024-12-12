@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import * as Api from "../Api";
+import * as Api from "../service/Api";
 import AnswerCard from "./AnswerCard";
 import { topShadow } from "../assets/style/style";
 

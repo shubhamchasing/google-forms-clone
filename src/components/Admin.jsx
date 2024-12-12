@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 
 import FormCard from "./Card";
 
-import * as Api from "../Api";
+import * as Api from "../service/Api";
 import { connect } from "react-redux";
 import * as action from "../store/actions/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CircularLoader from "./Loader";
 
 const mapStateToProps = (state) => {
@@ -25,16 +25,26 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-//const Form = ["Form1", "Form2", "Form3", "Form4", "Form5", "Form6"];
-
 function Admin({ forms, getForms }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     Api.getForms().then((data) => {
       getForms(data);
+    }).catch((err) => {
+      setError(err)
+    })
+    .finally(() => {
+      setLoading(false);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return forms.length === 0 ? (
+  if (error) {
+    throw error
+   }
+
+  return loading === 0 ? (
     <CircularLoader />
   ) : (
     <Box

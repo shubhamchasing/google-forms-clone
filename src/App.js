@@ -12,6 +12,8 @@ import User from "./components/User";
 import FillForm from "./components/FillForm";
 import SubmitPage from "./components/SubmitPage";
 import NotFound from "./components/NotFound";
+import ErrorBoundary from "./components/ErrorBoundary";
+import ErrorFallback from "./components/ErrorFallback";
 
 function Layout() {
   return (
@@ -24,22 +26,24 @@ function Layout() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Admin />} />
-          <Route path="form" element={<Form />} />
-          <Route path="form/:id" element={<Form />} />
-          <Route path="user/:userId" element={<User />} />
-          <Route path="user/:userId/:formId" element={<FillForm />} />
-          <Route
-            path="user/:userId/:formId/submitPage"
-            element={<SubmitPage />}
-          />
-        </Route>
-        <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
-      </Routes>
-    </Router>
+    <ErrorBoundary fallback={(error) => <ErrorFallback error={error} />}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Admin />} />
+            <Route path="form" element={<Form />} />
+            <Route path="form/:id" element={<Form />} />
+            <Route path="user/:userId" element={<User />} />
+            <Route path="user/:userId/:formId" element={<FillForm />} />
+            <Route
+              path="user/:userId/:formId/submitPage"
+              element={<SubmitPage />}
+            />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

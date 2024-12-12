@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 
 import FormCard from "./Card";
-import * as Api from "../Api";
+import * as Api from "../service/Api";
 import * as action from "../store/actions/actions";
 import CircularLoader from "./Loader";
 
@@ -22,24 +22,37 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-//const forms = ["Form1", "Form2", "Form3", "Form4", "Form5", "Form6"];
-
 function User({ getUser, user }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const { userId } = useParams();
   useEffect(() => {
-    Api.getUser(userId).then((data) => {
-      let newData = data.map((form) => {
-        return {
-          ...form,
-          form_fields: form.form_fields.map((field) => {
-            return { ...field, response: "" };
-          }),
-        };
+    Api.getUser(userId)
+      .then((data) => {
+        let newData = data.map((form) => {
+          return {
+            ...form,
+            form_fields: form.form_fields.map((field) => {
+              return { ...field, response: "" };
+            }),
+          };
+        });
+        getUser(newData);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      getUser(newData);
-    });
   }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
-  return user.length === 0 ? (
+
+  if (error) {
+    throw error;
+  }
+
+  return loading ? (
     <CircularLoader />
   ) : (
     <Box
