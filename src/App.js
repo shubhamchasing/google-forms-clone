@@ -14,12 +14,15 @@ import SubmitPage from "./components/SubmitPage";
 import NotFound from "./components/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
 import ErrorFallback from "./components/ErrorFallback";
+import SmallScreenCheck from "./components/SmallScreenCheck";
 
 function Layout() {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <SmallScreenCheck>
+        <Outlet />
+      </SmallScreenCheck>
     </>
   );
 }
