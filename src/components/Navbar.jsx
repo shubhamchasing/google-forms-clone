@@ -43,8 +43,10 @@ function Navbar({ getUsers, users }) {
     });
     if (userId) {
       setUser(userId);
+    } else {
+      setUser("");
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnSelect = (event) => {
     let id = event.target.value;
