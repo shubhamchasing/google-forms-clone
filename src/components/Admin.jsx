@@ -44,7 +44,7 @@ function Admin({ forms, getForms }) {
     throw error
    }
 
-  return loading === 0 ? (
+  return loading ? (
     <CircularLoader />
   ) : (
     <Box
